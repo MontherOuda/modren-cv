@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="السيرة الذاتية الاحترافية" />
+    <title>CV | Portfolio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <div id="app">
+        <nav class="navbar navbar-expand-lg sticky-top main-navbar">
+            <div class="container navbar-shell">
+                <a class="navbar-brand brand-wrap fw-bold" href="#home" aria-label="Home">
+                    <span class="brand-mark"><i class="fa-solid fa-code"></i></span>
+                    <span class="brand-text">
+                        <strong>{{ profile.name }}</strong>
+                        <small>Portfolio</small>
+                    </span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 nav-menu">
+                        <li class="nav-item"><a class="nav-link" href="#about">نبذة</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#skills">المهارات</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#experience">الخبرات</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#projects">المشاريع</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact">تواصل</a></li>
+                    </ul>
+                    <button class="btn btn-sm theme-btn ms-lg-3" @click="toggleTheme" aria-label="Toggle theme">
+                        <i class="fa-solid" :class="isDark ? 'fa-sun' : 'fa-moon'"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <header id="home" class="hero-section py-5">
+            <div class="container py-4">
+                <div class="row align-items-center g-4">
+                    <div class="col-lg-8">
+                        <span class="badge text-bg-primary px-3 py-2 mb-3">Open To Work</span>
+                        <h1 class="display-5 fw-bold mb-3">{{ profile.role }}</h1>
+                        <p class="lead text-secondary mb-4">{{ profile.summary }}</p>
+                        <div class="d-flex flex-wrap gap-2">
+                            <a class="btn btn-primary px-4" href="#contact">
+                                <i class="fa-solid fa-paper-plane me-1"></i>
+                                تواصل معي
+                            </a>
+                            <a class="btn btn-outline-primary px-4" href="#projects">
+                                <i class="fa-solid fa-diagram-project me-1"></i>
+                                مشاهدة المشاريع
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="profile-card p-4 text-center">
+                            <div class="avatar mx-auto mb-3">
+                                <img src="img/me2.jpg" alt="Monther Ouda" />
+                            </div>
+                            <h4 class="mb-1">{{ profile.name }}</h4>
+                            <p class="text-secondary mb-3">{{ profile.location }}</p>
+                            <div class="d-flex justify-content-center gap-3">
+                                <a v-for="social in profile.socials" :key="social.name" :href="social.url" class="social-link" target="_blank" rel="noreferrer">
+                                    <i :class="social.icon"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section id="about" class="py-5">
+                <div class="container">
+                    <div class="section-title mb-4">
+                        <h2>نبذة عني</h2>
+                    </div>
+                    <div class="card border-0 shadow-sm p-4">
+                        <p class="mb-0">{{ profile.about }}</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="skills" class="py-5 bg-body-tertiary">
+                <div class="container">
+                    <div class="section-title mb-4">
+                        <h2>المهارات</h2>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6" v-for="skill in skills" :key="skill.name">
+                            <div class="skill-item p-3">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>{{ skill.name }}</span>
+                                    <span>{{ skill.level }}%</span>
+                                </div>
+                                <div class="progress" role="progressbar" :aria-valuenow="skill.level" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar" :style="{ width: skill.level + '%' }"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="experience" class="py-5">
+                <div class="container">
+                    <div class="section-title mb-4">
+                        <h2>الخبرات</h2>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-lg-6" v-for="job in experiences" :key="job.company + job.period">
+                            <article class="exp-card h-100 p-4">
+                                <h5 class="mb-1">{{ job.title }}</h5>
+                                <p class="text-primary fw-semibold mb-1">{{ job.company }}</p>
+                                <p class="text-secondary small mb-2">
+                                    <i class="fa-regular fa-calendar me-1"></i>
+                                    {{ job.period }}
+                                </p>
+                                <p class="mb-0">{{ job.description }}</p>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="projects" class="py-5 bg-body-tertiary">
+                <div class="container">
+                    <div class="section-title mb-4">
+                        <h2>المشاريع</h2>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6 col-lg-4" v-for="project in projects" :key="project.name">
+                            <article class="project-card h-100 p-4">
+                                <h5 class="mb-2">{{ project.name }}</h5>
+                                <p class="text-secondary mb-3">{{ project.description }}</p>
+                                <div class="d-flex flex-wrap gap-2 mb-3">
+                                    <span class="badge text-bg-light border" v-for="tag in project.stack" :key="tag">{{ tag }}</span>
+                                </div>
+                                <a :href="project.url" target="_blank" rel="noreferrer" class="link-primary text-decoration-none fw-semibold">
+                                    عرض المشروع
+                                    <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
+                                </a>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contact" class="py-5">
+                <div class="container">
+                    <div class="section-title mb-4">
+                        <h2>تواصل معي</h2>
+                    </div>
+                    <div class="contact-box p-4 p-md-5">
+                        <div class="row g-3 align-items-center">
+                            <div class="col-md-8">
+                                <p class="mb-2"><i class="fa-solid fa-envelope me-2"></i>{{ profile.email }}</p>
+                                <p class="mb-0"><i class="fa-solid fa-phone me-2"></i>{{ profile.phone }}</p>
+                            </div>
+                            <div class="col-md-4 text-md-end">
+                                <a class="btn btn-primary" :href="'mailto:' + profile.email">Send Email</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="py-4 border-top">
+            <div class="container d-flex justify-content-between flex-wrap gap-2">
+                <span>© {{ currentYear }} {{ profile.name }}</span>
+                <span>Built with HTML5, CSS3, Bootstrap 5, Font Awesome, Google Fonts, Vue 3</span>
+            </div>
+        </footer>
+
+        <button
+            v-show="showBackToTop"
+            class="back-to-top"
+            type="button"
+            @click="scrollToTop"
+            aria-label="Back to top"
+        >
+            <i class="fa-solid fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
